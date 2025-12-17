@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Rocell Gadget | Katalog HP</title>
+
+<style>
+:root{
+  --bg:#0f1115;
+  --card:#171a21;
+  --text:#e5e7eb;
+  --muted:#9ca3af;
+  --accent:#2563eb;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:system-ui,-apple-system,Segoe UI,Roboto;
+  background:var(--bg);
+  color:var(--text);
+}
+header{
+  padding:20px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  border-bottom:1px solid #222;
+}
+header h1{
+  margin:0;
+  font-size:1.2rem;
+}
+header a{
+  background:var(--accent);
+  color:white;
+  padding:10px 14px;
+  border-radius:6px;
+  text-decoration:none;
+  font-weight:600;
+}
+.container{
+  padding:20px;
+  max-width:1200px;
+  margin:auto;
+}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+  gap:16px;
+}
+.card{
+  background:var(--card);
+  border-radius:10px;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+}
+.card img{
+  width:100%;
+  height:180px;
+  object-fit:contain;
+  background:#fff;
+}
+.card .info{
+  padding:14px;
+  flex:1;
+}
+.card h3{
+  margin:0 0 6px;
+  font-size:1rem;
+}
+.price{
+  color:var(--accent);
+  font-weight:700;
+  margin-bottom:10px;
+}
+.card a{
+  margin:14px;
+  text-align:center;
+  background:var(--accent);
+  color:white;
+  padding:10px;
+  border-radius:6px;
+  text-decoration:none;
+  font-weight:600;
+}
+.floating-wa{
+  position:fixed;
+  right:18px;
+  bottom:18px;
+  background:#25D366;
+  color:white;
+  padding:14px 18px;
+  border-radius:50px;
+  text-decoration:none;
+  font-weight:700;
+}
+footer{
+  text-align:center;
+  color:var(--muted);
+  padding:30px 10px;
+  font-size:0.9rem;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>Rocell Gadget</h1>
+  <a href="https://wa.me/6281211172228" target="_blank">Chat WhatsApp</a>
+</header>
+
+<div class="container">
+  <div id="produk" class="grid"></div>
+</div>
+
+<a class="floating-wa" href="https://wa.me/6281211172228" target="_blank">
+  WhatsApp
+</a>
+
+<footer>
+  © Rocell Gadget · Jual Beli HP Aman & Terpercaya
+</footer>
+
+<script>
+const PLACEHOLDER =
+"https://via.placeholder.com/400x400?text=Rocell+Gadget";
+
+fetch('items.json?'+Date.now())
+.then(res=>res.json())
+.then(data=>{
+  const wrap=document.getElementById('produk');
+  data.forEach(p=>{
+    const img=p.gambar && p.gambar.trim()!=='' ? p.gambar : PLACEHOLDER;
+    const harga=p.harga>0
+      ? 'Rp '+p.harga.toLocaleString('id-ID')
+      : 'Hubungi';
+    const pesan=encodeURIComponent(
+      `Halo Rocell Gadget, saya tertarik dengan ${p.nama}, apakah masih tersedia?`
+    );
+    wrap.innerHTML+=`
+      <div class="card">
+        <img src="${img}" alt="${p.nama}">
+        <div class="info">
+          <h3>${p.nama}</h3>
+          <div class="price">${harga}</div>
+        </div>
+        <a href="https://wa.me/6281211172228?text=${pesan}" target="_blank">
+          Chat WhatsApp
+        </a>
+      </div>`;
+  });
+});
+</script>
+
+</body>
+</html>
